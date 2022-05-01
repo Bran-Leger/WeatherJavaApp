@@ -167,8 +167,8 @@ public class EightBall extends AppCompatActivity implements ShakeDetector.Listen
 
         String weather = forecast.forecast[1].toLowerCase();
 
-        if (weather.contains("cloud")) weather = "cloudy";
-        else if (weather.contains("rain") || weather.contains("shower")) weather = "rainy";
+        if (weather.contains("rain") || weather.contains("shower")) weather = "rainy";
+        else if (weather.contains("cloud")) weather = "cloudy";
         else if (weather.contains("sun") || weather.contains("clear")) weather = "sunny";
         else weather = "sunny";
 

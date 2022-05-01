@@ -71,7 +71,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
     String cityName = "";
     int selectedZip = 0;
     int addedZip = 0;
-
+    boolean triggerOnce = false;
 
     String URL = "";
     HashSet<Integer> currZips = new HashSet<>();
@@ -85,9 +85,9 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         queue = Volley.newRequestQueue(this);
 
         zipcodeViewModel = new ViewModelProvider(this).get(ZipcodeViewModel.class);
-
+        ZipcodeDatabase.deleteAll();
         //ZipcodeDatabase.createZipcodeTable();
-        //ZipcodeDatabase.deleteAll();
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             forecast = new Forecast();
@@ -96,8 +96,6 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
             forecast.forecast = extras.getStringArray("forecast");
         }
 
-        // Set the action bar
-        //setSupportActionBar(findViewById(R.id.toolbar));
 
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -109,8 +107,6 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
 
 
         zipcodeViewModel.getAllZipcodes().observe(this, adapter::setZipcodes);
-        //getWeatherPointURL(selectedZip + "");
-        //String s = getForecast("17104");
     }
 
 
@@ -279,8 +275,11 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
                     holder.itemView.setBackgroundColor(Color.YELLOW);
                     // the last selected zip of the user
                     selectedZip = current.zip;
-                    //getWeatherPointURL(selectedZip + "");
-                    dontAddGetWeatherPointURL("" + selectedZip);
+                    if (!triggerOnce){
+                        triggerOnce = true;
+                        dontAddGetWeatherPointURL("" + selectedZip);
+                    }
+
                 } else {
                     holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 }
@@ -535,7 +534,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         }
         forecast.city = f.city;
 
-        if (!currZips.contains(addedZip)) {
+        if (!currZips.contains(addedZip) && addedZip != 0) {
             Zipcode newZip = new Zipcode(addedZip, f.city, false);
             ZipcodeDatabase.insert(newZip);
         }
