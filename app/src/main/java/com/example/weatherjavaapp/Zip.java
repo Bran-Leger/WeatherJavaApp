@@ -87,7 +87,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         zipcodeViewModel = new ViewModelProvider(this).get(ZipcodeViewModel.class);
 
         //ZipcodeDatabase.createZipcodeTable();
-       //ZipcodeDatabase.deleteAll();
+        //ZipcodeDatabase.deleteAll();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             forecast = new Forecast();
@@ -141,7 +141,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
 
     }
 
-    public void gotoMagicZipPage(View view){
+    public void gotoMagicZipPage(View view) {
 
         Intent i = new Intent(this, EightBall.class);
         i.putExtra("city", forecast.city);
@@ -234,7 +234,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
                         });
                         ZipcodeDatabase.update(zipcode);
                         selectedZip = zipcode.zip;
-                        getWeatherPointURL("" + selectedZip);
+                        dontAddGetWeatherPointURL("" + selectedZip);
 
                     }
                 });
@@ -306,6 +306,11 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         queue.add(req);
     }
 
+    private void dontAddGetWeatherPointURL(String zipcode) {
+        StringRequest req = getData2(zipcode, this);
+        queue.add(req);
+    }
+
     private void getForecastURL(String url) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 url, null,
@@ -351,7 +356,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
                     @Override
                     public void onResponse(Object response) {
                         try {
-                            JSONObject forecastJSON = (JSONObject)response;
+                            JSONObject forecastJSON = (JSONObject) response;
                             JSONArray weeklyForecast = forecastJSON.getJSONObject("properties").getJSONArray("periods");
 
                             forecast = new Forecast();
@@ -364,7 +369,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
                             if (cityName == null || cityName.equals("")) cityName = "Unknown";
 
 
-                           setForecast(forecast);
+                            setForecast(forecast);
 
                         } catch (Exception je) {
                             System.out.print(je);
@@ -515,8 +520,8 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         });
     }
 
-    public void setForecast(Forecast f){
-        for (int i = 0; i < 7; i++){
+    public void setForecast(Forecast f) {
+        for (int i = 0; i < 7; i++) {
             forecast.addForecast(i, f.temperature[i], f.forecast[i]);
         }
         forecast.city = f.city;
@@ -526,8 +531,136 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
             ZipcodeDatabase.insert(newZip);
         }
     }
+
+    public void setForecast2(Forecast f) {
+        for (int i = 0; i < 7; i++) {
+            forecast.addForecast(i, f.temperature[i], f.forecast[i]);
+        }
+        forecast.city = f.city;
+    }
+
+    private StringRequest getData2(String zipcode, Activity activity) {
+        return new StringRequest(Request.Method.GET, "http://open.mapquestapi.com/geocoding/v1/address?key=4krg3WCs4heLPdqsGXdDIkSeO80gmSYL&location=" + zipcode, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    String urlWeatherPoints = "https://api.weather.gov/points/";
+                    String latitude = "";
+                    String longitude = "";
+                    String city = "";
+                    JSONObject mapquestJSON = new JSONObject(response);
+
+                    JSONArray results = mapquestJSON.getJSONArray("results");
+                    JSONArray locations = results.getJSONObject(0).getJSONArray("locations");
+
+                    for (int i = 0; i < locations.length(); i++) {
+                        if (locations.getJSONObject(i).getString("adminArea1").equals("US")) {
+                            JSONObject x = locations.getJSONObject(i).getJSONObject("latLng");
+                            //                        JSONObject a = x.getJSONObject("lat");
+                            //                        JSONObject b = x.getJSONObject("lng");
+                            latitude = x.getString("lat");
+                            longitude = x.getString("lng");
+                            city = locations.getJSONObject(i).getString("adminArea5");
+                        }
+                    }
+                    // RequestQueue q = Volley.newRequestQueue(activity.getApplicationContext());
+
+                    URL = urlWeatherPoints + latitude + "," + longitude;
+                    cityName = city;
+                    getForecastURL2(URL);
+                } catch (JSONException e) {
+                    Toast.makeText(Zip.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Zip.this, "Food source is not responding (USDA API)", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void getForecastURL2(String url) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object response) {
+                        try {
+                            JSONObject obj = (JSONObject) response;
+                            System.out.println("helllo");
+                            JSONObject weatherPointsJSON = obj;
+                            String forecastURL = weatherPointsJSON.getJSONObject("properties").getString("forecast");
+                            URL = forecastURL;
+                            getTemperatures(URL);
+                        } catch (Exception je) {
+                            System.out.print(je);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }) {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("User-Agent", "(myweatherapp.com , warhawkhero124@gmail.com)");
+                // headers.put("User-Agent", "contaxt@myweatherapp");
+                //headers.put("myweatherapp.com", "contact@myweatherapp.com");
+
+                return headers;
+            }
+        };
+
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest.setTag("headerRequest"));
+    }
+
+    private void getTemperatures2(String url) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object response) {
+                        try {
+                            JSONObject forecastJSON = (JSONObject) response;
+                            JSONArray weeklyForecast = forecastJSON.getJSONObject("properties").getJSONArray("periods");
+
+                            forecast = new Forecast();
+                            for (int i = 0; i < 7; i++) {
+                                forecast.addForecast(i, Integer.parseInt(weeklyForecast.getJSONObject(i).getString("temperature")), weeklyForecast.getJSONObject(i).getString("shortForecast"));
+                            }
+                            forecast.setCity(cityName);
+
+                            // put this information within the database
+                            if (cityName == null || cityName.equals("")) cityName = "Unknown";
+
+
+                            setForecast2(forecast);
+
+                        } catch (Exception je) {
+                            System.out.print(je);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }) {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("User-Agent", "(myweatherapp.com , warhawkhero124@gmail.com)");
+                // headers.put("User-Agent", "contaxt@myweatherapp");
+                //headers.put("myweatherapp.com", "contact@myweatherapp.com");
+
+                return headers;
+            }
+        };
+    }
 }
-
-
-
-
