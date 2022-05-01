@@ -150,6 +150,14 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         startActivity(i);
     }
 
+    public void gotoForecast(View view){
+        Intent i = new Intent(this, ForecastPage.class);
+        i.putExtra("city", forecast.city);
+        i.putExtra("temperatures", forecast.temperature);
+        i.putExtra("forecasts", forecast.forecast);
+        startActivity(i);
+    }
+
     //FloatingActionButton fab = findViewById(R.id.fab);
     public void getZip(View view) {
         z.show(getSupportFragmentManager(), "zipcode_fragment");
@@ -272,6 +280,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
                     // the last selected zip of the user
                     selectedZip = current.zip;
                     //getWeatherPointURL(selectedZip + "");
+                    dontAddGetWeatherPointURL("" + selectedZip);
                 } else {
                     holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 }

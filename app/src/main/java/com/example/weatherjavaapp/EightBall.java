@@ -14,6 +14,7 @@ import android.media.MediaParser;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -34,32 +35,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
-//public class SoundPoolPlayer {
-//    private SoundPool mShortPlayer= null;
-//    private HashMap mSounds = new HashMap();
-//
-//    public SoundPoolPlayer(Context pContext)
-//    {
-//        // setup Soundpool
-//        this.mShortPlayer = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
-//
-//
-//        mSounds.put(R.raw.<magic>, this.mShortPlayer.load(pContext, R.raw.<magic>, 1));
-//        //mSounds.put(R.raw.<sound_2_name>, this.mShortPlayer.load(pContext, R.raw.<sound_2_name>, 1));
-//    }
-//
-//    public void playShortResource(int piResource) {
-//        int iSoundId = (Integer) mSounds.get(piResource);
-//        this.mShortPlayer.play(iSoundId, 0.99f, 0.99f, 0, 0, 1);
-//    }
-//
-//    // Cleanup
-//    public void release() {
-//        // Cleanup
-//        this.mShortPlayer.release();
-//        this.mShortPlayer = null;
-//    }
-//}
 
 public class EightBall extends AppCompatActivity implements ShakeDetector.Listener {
 
@@ -85,7 +60,15 @@ public class EightBall extends AppCompatActivity implements ShakeDetector.Listen
         actionBar.hide();
         setContentView(R.layout.eight_ball);
 
+        // checking if the forecast has been saved
+        if (savedInstanceState != null){
+            forecast = new Forecast();
+            forecast.city = savedInstanceState.getString("city");
+            forecast.forecast = savedInstanceState.getStringArray("forecasts");
+            forecast.temperature = savedInstanceState.getIntArray("temperatures");
+        }
 
+        // catching the forecast from an intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             forecast = new Forecast();
@@ -94,6 +77,8 @@ public class EightBall extends AppCompatActivity implements ShakeDetector.Listen
                 forecast.addForecast(i, extras.getIntArray("temperatures")[i], extras.getStringArray("forecasts")[i]);
             }
         }
+
+
 
         final int screenWidth = getScreenDimensions(this).x;
         final int waveImgWidth = getResources().getDrawable(R.drawable.wave).getIntrinsicWidth();
@@ -119,15 +104,45 @@ public class EightBall extends AppCompatActivity implements ShakeDetector.Listen
 
 
     }
+    @Override
+    protected void onPause(){
+        Log.d("life_cycle", "onPause invoked");
+        super.onPause();
+    }
+    @Override
+    protected void onStop(){
+        Log.d("life_cycle", "onStop invoked");
+        super.onStop();
+    }
 
-    public void gotoZipcode(){
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d("life_cycle", "onRestoreInstanceState invoked");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        Log.d("life_cycle", "onSaveInstanceState invoked");
+
+        // save the forecast
+        outState.putString("city", forecast.city);
+        outState.putStringArray("forecasts", forecast.forecast);
+        outState.putIntArray("temperatures", forecast.temperature);
+    }
+
+    public void gotoZipcode(View view){
         Intent i = new Intent(this, Zip.class);
         startActivity(i);
     }
 
-    public void gotoForecast(){
-        //Intent i = new Intent(this)
-
+    public void gotoForecast(View view){
+        Intent i = new Intent(this, ForecastPage.class);
+        i.putExtra("city", forecast.city);
+        i.putExtra("temperatures", forecast.temperature);
+        i.putExtra("forecasts", forecast.forecast);
+        startActivity(i);
     }
 
     @Override

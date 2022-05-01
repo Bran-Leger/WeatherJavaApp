@@ -21,6 +21,7 @@
         <activity android:name=".Zip"/>
         <activity android:name=".ZipcodeDialogFragment"/>
         <activity android:name=".EightBall"/>
+        <activity android:name=".ForecastPage"/>
     </application>
 
 </manifest>

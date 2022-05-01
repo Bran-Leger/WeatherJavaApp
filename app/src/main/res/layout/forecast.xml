@@ -1,0 +1,269 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/layout1">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="Magic Weather Ball"
+            app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/zipcodeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="gotoZipcode"
+                android:text="ZIPCODE" />
+
+            <Button
+                android:id="@+id/forecastBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/purple_200"
+                android:text="FORECAST" />
+
+            <Button
+                android:id="@+id/magicBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="gotoMagicZipPage"
+
+                android:text="MAGIC BALL" />
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/layout7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout6">
+
+        <ImageView
+            android:id="@+id/forecastImage7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/cloudy" />
+
+        <TextView
+            android:id="@+id/day7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="day 7" />
+
+        <TextView
+            android:id="@+id/temperature7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Temp 64" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout6"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/layout7"
+        app:layout_constraintTop_toBottomOf="@id/layout5"
+        tools:layout_editor_absoluteX="1dp">
+
+        <ImageView
+                    android:id="@+id/forecastImage6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/cloudy" />
+
+        <TextView
+            android:id="@+id/day6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="day 6" />
+
+        <TextView
+            android:id="@+id/temperature6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Temp 64" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout5"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/layout6"
+        app:layout_constraintTop_toBottomOf="@+id/layout4"
+        tools:layout_editor_absoluteX="1dp">
+
+        <ImageView
+                    android:id="@+id/forecastImage5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/cloudy" />
+
+        <TextView
+            android:id="@+id/day5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="day 5" />
+
+        <TextView
+            android:id="@+id/temperature5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Temp 65" />
+
+    </LinearLayout>
+     <LinearLayout
+            android:id="@+id/layout4"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/layout5"
+            app:layout_constraintTop_toBottomOf="@+id/layout3"
+            tools:layout_editor_absoluteX="1dp">
+
+            <ImageView
+            android:id="@+id/forecastImage4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/cloudy" />
+            <TextView
+                android:id="@+id/day4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="day 4" />
+
+            <TextView
+                android:id="@+id/temperature4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Temp 65" />
+
+        </LinearLayout>
+        <LinearLayout
+                    android:id="@+id/layout3"
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/layout4"
+                    app:layout_constraintTop_toBottomOf="@+id/layout2"
+                    tools:layout_editor_absoluteX="1dp">
+
+                    <ImageView
+                                android:id="@+id/forecastImage3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/cloudy" />
+                    <TextView
+                        android:id="@+id/day3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="day 3" />
+
+                    <TextView
+                        android:id="@+id/temperature3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Temp 65" />
+
+                </LinearLayout>
+        <LinearLayout
+                            android:id="@+id/layout2"
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toTopOf="@+id/layout3"
+                            app:layout_constraintTop_toBottomOf="@+id/layout1"
+                            tools:layout_editor_absoluteX="1dp">
+
+                            <ImageView
+                                        android:id="@+id/forecastImage2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/cloudy" />
+
+                            <TextView
+                                android:id="@+id/day2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="day 2" />
+
+                            <TextView
+                                android:id="@+id/temperature2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="Temp 65" />
+
+                        </LinearLayout>
+        <LinearLayout
+                            android:id="@+id/layout1"
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toTopOf="@+id/layout2"
+                            app:layout_constraintTop_toBottomOf="@+id/appbar"
+                            tools:layout_editor_absoluteX="1dp">
+
+                            <ImageView
+                                        android:id="@+id/forecastImage1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/cloudy" />
+
+                            <TextView
+                                android:id="@+id/day1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="day 1" />
+
+                            <TextView
+                                android:id="@+id/temperature1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="Temp 65" />
+
+                        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
