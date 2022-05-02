@@ -407,7 +407,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
     }
 
     private StringRequest getData(String zipcode, Activity activity) {
-        return new StringRequest(Request.Method.GET, "http://open.mapquestapi.com/geocoding/v1/address?key=4krg3WCs4heLPdqsGXdDIkSeO80gmSYL&location=" + zipcode, new Response.Listener<String>() {
+        return new StringRequest(Request.Method.GET, "https://open.mapquestapi.com/geocoding/v1/address?key=4krg3WCs4heLPdqsGXdDIkSeO80gmSYL&location=" + zipcode, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -548,7 +548,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
     }
 
     private StringRequest getData2(String zipcode, Activity activity) {
-        return new StringRequest(Request.Method.GET, "http://open.mapquestapi.com/geocoding/v1/address?key=4krg3WCs4heLPdqsGXdDIkSeO80gmSYL&location=" + zipcode, new Response.Listener<String>() {
+        return new StringRequest(Request.Method.GET, "https://open.mapquestapi.com/geocoding/v1/address?key=4krg3WCs4heLPdqsGXdDIkSeO80gmSYL&location=" + zipcode, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
