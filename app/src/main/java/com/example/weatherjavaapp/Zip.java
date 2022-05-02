@@ -85,7 +85,7 @@ public class Zip extends AppCompatActivity implements ZipcodeDialogInterface {
         queue = Volley.newRequestQueue(this);
 
         zipcodeViewModel = new ViewModelProvider(this).get(ZipcodeViewModel.class);
-        ZipcodeDatabase.deleteAll();
+        //ZipcodeDatabase.deleteAll();
         //ZipcodeDatabase.createZipcodeTable();
 
         Bundle extras = getIntent().getExtras();
